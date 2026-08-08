@@ -1,0 +1,94 @@
+{
+  "header": {
+    "title": "NEWS UPDATE",
+    "logoAlt": "Glasswave Logo"
+  },
+  "carousel": [
+    {
+      "id": 1,
+      "type": "image",
+      "tag": "TECNOLOGÍA",
+      "tagIcon": "🏙️",
+      "title": "La ciudad del futuro ya está aquí",
+      "excerpt": "Descubre cómo las metrópolis globales están integrando tecnología inmersiva en cada rincón de su infraestructura.",
+      "date": "8 Ago 2026",
+      "readTime": "4 min",
+      "image": "assets/city.png",
+      "imageAlt": "Ciudad futurista iluminada de noche con luces neón",
+      "accentColor": "#00aaff"
+    },
+    {
+      "id": 2,
+      "type": "text",
+      "tag": "ESPECIAL",
+      "tagIcon": "⚡",
+      "title": "El glass computing redefine la UI",
+      "excerpt": "Los interfaces translúcidos y la física del líquido real están transformando la experiencia digital. Una revolución silenciosa que ya comenzó y no tiene marcha atrás.",
+      "ctaLabel": "Leer más",
+      "accentColor": "#a855f7",
+      "gradientFrom": "#1a0533",
+      "gradientTo": "#0d1a3a"
+    },
+    {
+      "id": 3,
+      "type": "image",
+      "tag": "DISEÑO",
+      "tagIcon": "💎",
+      "title": "Liquid Glass: la nueva estética global",
+      "excerpt": "Apple y los grandes estudios adoptaron el cristal líquido como lenguaje visual de la próxima década.",
+      "date": "6 Ago 2026",
+      "readTime": "3 min",
+      "image": "assets/liquid.png",
+      "imageAlt": "Ondas de cristal líquido iridiscentes con colores teal y dorado",
+      "accentColor": "#00ffc8"
+    },
+    {
+      "id": 4,
+      "type": "image",
+      "tag": "CIENCIA",
+      "tagIcon": "🌊",
+      "title": "El mar que emite su propia luz",
+      "excerpt": "Científicos descubren nuevas criaturas bioluminiscentes que podrían revolucionar la bioingeniería y el diseño de materiales.",
+      "date": "5 Ago 2026",
+      "readTime": "5 min",
+      "image": "assets/ocean.png",
+      "imageAlt": "Fondo oceánico bioluminiscente con criaturas que emiten luz azul",
+      "accentColor": "#0099ff"
+    },
+    {
+      "id": 5,
+      "type": "text",
+      "tag": "ACTUALIZACIÓN",
+      "tagIcon": "🔔",
+      "title": "Glasswave v2.0 está en camino",
+      "excerpt": "La próxima versión traerá efectos físicos de partículas, refracción en tiempo real y un motor de animación completamente renovado para móvil.",
+      "ctaLabel": "Ver detalles",
+      "accentColor": "#22d3ee",
+      "gradientFrom": "#001a1a",
+      "gradientTo": "#0a1628"
+    },
+    {
+      "id": 6,
+      "type": "image",
+      "tag": "NATURALEZA",
+      "tagIcon": "🌌",
+      "title": "Aurora boreal: el cielo en llamas",
+      "excerpt": "La temporada 2026 promete las auroras más intensas en 50 años gracias al ciclo solar máximo.",
+      "date": "3 Ago 2026",
+      "readTime": "3 min",
+      "image": "assets/aurora.png",
+      "imageAlt": "Aurora boreal sobre montañas nevadas con cielo estrellado",
+      "accentColor": "#4ade80"
+    }
+  ],
+  "newsCard": {
+    "tag": "ACTUALIZACIÓN",
+    "tagIcon": "📡",
+    "date": "Hoy · 14:19",
+    "title": "Update Glasswave",
+    "body": "La plataforma Glasswave ha lanzado una nueva actualización que incorpora refracción de luz en tiempo real, simulación de física de fluidos en la interfaz y un sistema de capas translúcidas que reacciona a los movimientos del usuario. Este avance posiciona a Glasswave como el referente de diseño líquido para el ecosistema móvil y de escritorio, unificando belleza visual con rendimiento nativo.",
+    "ctaLabel": "Leer artículo completo",
+    "shareLabel": "Compartir",
+    "accentColor": "#818cf8"
+  }
+}
