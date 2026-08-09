@@ -162,10 +162,10 @@ function initGL() {
 function createOrbs() {
   const configs = [
     // { rgb, x, y, size }  — x/y relative to center (0,0)
-    { r:0,   g:90,  b:255, x:-W*0.32, y: H*0.28, sz: H*0.88, speed:0.22, phase:0 },
-    { r:155, g:0,   b:255, x: W*0.38, y:-H*0.08, sz: H*0.74, speed:0.18, phase:2.1 },
-    { r:0,   g:220, b:160, x:-W*0.08, y:-H*0.38, sz: H*0.62, speed:0.25, phase:4.2 },
-    { r:255, g:100, b:0,   x: W*0.28, y: H*0.35, sz: H*0.52, speed:0.15, phase:1.0 },
+    { r:27,  g:40,  b:69,  x:-W*0.32, y: H*0.28, sz: H*0.88, speed:0.22, phase:0 },
+    { r:51,  g:92,  b:129, x: W*0.38, y:-H*0.08, sz: H*0.74, speed:0.18, phase:2.1 },
+    { r:27,  g:40,  b:69,  x:-W*0.08, y:-H*0.38, sz: H*0.62, speed:0.25, phase:4.2 },
+    { r:51,  g:92,  b:129, x: W*0.28, y: H*0.35, sz: H*0.52, speed:0.15, phase:1.0 },
   ];
 
   configs.forEach(cfg => {
@@ -206,9 +206,8 @@ function addGlassMesh(element, radiusPx = 28) {
   const rect = element.getBoundingClientRect();
   if (rect.width < 4 || rect.height < 4) return;
 
-  // Rounded rectangle shape
   const shape = roundedRectShape(rect.width, rect.height, radiusPx);
-  const geo   = new THREE.ShapeGeometry(shape, 6);
+  const geo   = new THREE.ShapeGeometry(shape, 48); // High segment count for smooth corners
 
   const mat = new THREE.ShaderMaterial({
     uniforms: {
@@ -330,7 +329,7 @@ function handleResize() {
    CONTENT: JSON → HTML
    ══════════════════════════════════════════════════════════════ */
 async function loadContent() {
-  const res = await fetch('./content.json');
+  const res = await fetch('./content.json?t=' + Date.now());
   if (!res.ok) throw new Error('content.json not found');
   return res.json();
 }
@@ -347,27 +346,34 @@ function renderCarousel(slides) {
   track.innerHTML = '';
   dots.innerHTML  = '';
 
-  slides.forEach((slide, i) => {
+  const buildArt = (slide, i, isClone = false) => {
     const art = document.createElement('article');
-    art.className = `slide slide--${slide.type}`;
+    art.className = `slide slide--${slide.type}${isClone ? ' clone' : ''}`;
     art.setAttribute('role', 'listitem');
-    art.dataset.index  = i;
+    art.dataset.index = i;
     art.dataset.accent = slide.accentColor || '#00aaff';
+    art.innerHTML = slide.type === 'image' ? buildImageSlide(slide) : buildTextSlide(slide);
+    return art;
+  };
 
-    art.innerHTML = slide.type === 'image'
-      ? buildImageSlide(slide)
-      : buildTextSlide(slide);
-    track.appendChild(art);
-
+  const domSlides = slides.map((slide, i) => {
+    const art = buildArt(slide, i);
     // Dot
     const dot = document.createElement('button');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-    dot.setAttribute('aria-label', `Diapositiva ${i + 1}`);
     dot.dataset.idx = i;
     dots.appendChild(dot);
+    return art;
   });
+
+  // Clones for infinite loop
+  const firstClone = buildArt(slides[0], 0, true);
+  const lastClone = buildArt(slides[slides.length-1], slides.length-1, true);
+
+  // Append: lastClone -> real slides -> firstClone
+  track.appendChild(lastClone);
+  domSlides.forEach(s => track.appendChild(s));
+  track.appendChild(firstClone);
 }
 
 function buildImageSlide(s) {
@@ -448,28 +454,55 @@ function initCarousel(total) {
   const carEl   = document.getElementById('carousel');
   if (!track) return;
 
-  let current = 0, autoTimer = null, progRaf = null, progStart = null;
+  let current = 1, autoTimer = null, progRaf = null, progStart = null;
   const AUTO = 5500;
+  let isTransitioning = false;
 
   const slides = () => track.querySelectorAll('.slide');
   const dots   = () => dotsEl.querySelectorAll('.dot');
+
+  track.style.transition = 'none';
+  track.style.transform = `translateX(-100%)`;
 
   function activate(idx) {
     slides().forEach((s,i) => s.classList.toggle('is-active', i === idx));
   }
 
   function goTo(idx, noRestart=false) {
-    if (idx < 0) idx = total - 1;
-    if (idx >= total) idx = 0;
+    if (isTransitioning && (idx === 0 || idx === total + 1)) return;
     current = idx;
+    isTransitioning = true;
+    
+    track.style.transition = 'transform .6s cubic-bezier(0.76, 0, 0.24, 1)';
     track.style.transform = `translateX(-${current * 100}%)`;
+    
+    let realIdx = current - 1;
+    if (current === 0) realIdx = total - 1;
+    if (current === total + 1) realIdx = 0;
+    
     dots().forEach((d,i) => {
-      d.classList.toggle('active', i === current);
-      d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      d.classList.toggle('active', i === realIdx);
+      d.setAttribute('aria-selected', i === realIdx ? 'true' : 'false');
     });
+    
     activate(current);
     if (!noRestart) restartAuto();
   }
+
+  track.addEventListener('transitionend', () => {
+    isTransitioning = false;
+    if (current === 0) {
+      track.style.transition = 'none';
+      current = total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      activate(current);
+    } else if (current === total + 1) {
+      track.style.transition = 'none';
+      current = 1;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      activate(current);
+    }
+  });
 
   function startProgress() {
     cancelAnimationFrame(progRaf);
@@ -492,7 +525,7 @@ function initCarousel(total) {
 
   prevBtn?.addEventListener('click', () => { addRipple(prevBtn); goTo(current - 1); });
   nextBtn?.addEventListener('click', () => { addRipple(nextBtn); goTo(current + 1); });
-  dotsEl?.addEventListener('click', e => { const d = e.target.closest('.dot'); if(d) goTo(+d.dataset.idx); });
+  dotsEl?.addEventListener('click', e => { const d = e.target.closest('.dot'); if(d) goTo(+d.dataset.idx + 1); });
   document.addEventListener('keydown', e => { if(e.key==='ArrowRight') goTo(current+1); if(e.key==='ArrowLeft') goTo(current-1); });
 
   // Swipe
@@ -506,17 +539,20 @@ function initCarousel(total) {
     track.style.transform = `translateX(calc(-${current*100}% + ${dx}px))`;
   }, {passive:true});
   carEl.addEventListener('touchend', () => {
-    if(!dragging) return; dragging=false; track.style.transition='';
+    if(!dragging) return; dragging=false; track.style.transition='transform .6s cubic-bezier(0.76, 0, 0.24, 1)';
     if(dx < -carEl.offsetWidth*.18) goTo(current+1);
     else if(dx > carEl.offsetWidth*.18) goTo(current-1);
-    else goTo(current);
+    else {
+      track.style.transform = `translateX(-${current*100}%)`;
+      restartAuto();
+    }
   });
 
   carEl.addEventListener('mouseenter', pauseAuto);
   carEl.addEventListener('mouseleave', restartAuto);
   document.addEventListener('visibilitychange', () => document.hidden ? pauseAuto() : restartAuto());
 
-  activate(0); goTo(0, true); restartAuto();
+  activate(1); restartAuto();
 }
 
 /* ══════════════════════════════════════════════════════════════
