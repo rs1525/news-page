@@ -106,8 +106,8 @@ void main() {
   // Final color
   vec3 col = refracted + tint + vec3(fresnel * 0.7, fresnel * 0.78, fresnel) + caustic;
 
-  // Alpha: more opaque at edges (thick glass rim), semi-transparent centre
-  float alpha = 0.72 + fresnel * 0.2;
+  // Alpha: highly transparent so it doesn't look gray, mostly visible at the edges via fresnel
+  float alpha = 0.05 + fresnel * 0.2;
 
   gl_FragColor = vec4(col, alpha);
 }
@@ -163,9 +163,9 @@ function createOrbs() {
   const configs = [
     // { rgb, x, y, size }  — x/y relative to center (0,0)
     { r:27,  g:40,  b:69,  x:-W*0.32, y: H*0.28, sz: H*0.88, speed:0.22, phase:0 },
-    { r:51,  g:92,  b:129, x: W*0.38, y:-H*0.08, sz: H*0.74, speed:0.18, phase:2.1 },
+    { r:35,  g:11,  b:38,  x: W*0.38, y:-H*0.08, sz: H*0.74, speed:0.18, phase:2.1 },
     { r:27,  g:40,  b:69,  x:-W*0.08, y:-H*0.38, sz: H*0.62, speed:0.25, phase:4.2 },
-    { r:51,  g:92,  b:129, x: W*0.28, y: H*0.35, sz: H*0.52, speed:0.15, phase:1.0 },
+    { r:35,  g:11,  b:38,  x: W*0.28, y: H*0.35, sz: H*0.52, speed:0.15, phase:1.0 },
   ];
 
   configs.forEach(cfg => {
@@ -421,12 +421,7 @@ function renderNewsCard(nc) {
     </div>
     <h2 class="nc-title">${nc.title}</h2>
     <p class="nc-body">${nc.body}</p>
-    <div class="nc-footer">
-      <button class="nc-cta" id="ncCta"><span>${nc.ctaLabel}</span>
-        <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
-          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
+    <div class="nc-footer" style="justify-content: flex-end;">
       <button class="nc-share" id="ncShare" aria-label="${nc.shareLabel}">
         <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
           <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"
@@ -435,7 +430,6 @@ function renderNewsCard(nc) {
       </button>
     </div>`;
 
-  document.getElementById('ncCta')?.addEventListener('click', function() { addRipple(this); });
   document.getElementById('ncShare')?.addEventListener('click', async () => {
     const d = { title: nc.title, text: nc.body.slice(0,120), url: location.href };
     try { if (navigator.share) await navigator.share(d); else await navigator.clipboard.writeText(location.href); } catch(_){}

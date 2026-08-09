@@ -303,15 +303,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .dot.active{
   width:20px;border-radius:100px;
-  background:linear-gradient(90deg,#1B2845,#335C81);
+  background:linear-gradient(90deg,#1B2845,#230B26);
   border-color:transparent;
-  box-shadow:0 0 10px rgba(51,92,129,.55);
+  box-shadow:0 0 10px rgba(35,11,38,.55);
 }
 .dot:hover:not(.active){background:rgba(255,255,255,.5);transform:scale(1.3)}
 
 /* Progress */
 .carousel__progress{position:absolute;bottom:0;left:0;right:0;height:1.5px;background:rgba(255,255,255,.07);z-index:8}
-.carousel__bar{height:100%;background:linear-gradient(90deg,#1B2845,#335C81);transition:width .1s linear;box-shadow:0 0 6px rgba(51,92,129,.5)}
+.carousel__bar{height:100%;background:linear-gradient(90deg,#1B2845,#230B26);transition:width .1s linear;box-shadow:0 0 6px rgba(35,11,38,.5)}
 
 /* ── NEWS CARD ──────────────────────────────────────────────── */
 .news-section{animation:fadeUp .65s .26s var(--ease-out) both}
@@ -337,8 +337,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   font-family:var(--f-display);
   font-size:clamp(1.6rem,7vw,2.4rem);font-weight:900;line-height:1.05;
   margin-bottom:14px;
-  background:linear-gradient(135deg,#fff 10%,rgba(200,215,255,.85) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  color:#fff;
+  text-align:center;
 }
 .nc-body{font-size:.83rem;color:rgba(255,255,255,.65);line-height:1.78;margin-bottom:22px}
 .nc-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -346,7 +346,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   display:inline-flex;align-items:center;gap:8px;
   padding:12px 22px;border-radius:100px;
   font-family:var(--f-display);font-size:.8rem;font-weight:700;color:#fff;
-  background:linear-gradient(135deg,#1B2845,#335C81);
+  background:linear-gradient(135deg,#1B2845,#230B26);
   box-shadow:0 6px 22px rgba(27,40,69,.5),inset 0 1px 0 rgba(255,255,255,.28);
   transition:transform .18s var(--ease-spr),box-shadow .18s;
   position:relative;overflow:hidden;
@@ -357,7 +357,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transform:translateX(-100%);transition:transform .45s ease;
 }
 .nc-cta:hover::after{transform:translateX(100%)}
-.nc-cta:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 12px 32px rgba(51,92,129,.5),inset 0 1px 0 rgba(255,255,255,.35)}
+.nc-cta:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 12px 32px rgba(35,11,38,.5),inset 0 1px 0 rgba(255,255,255,.35)}
 .nc-cta:active{transform:scale(.96)}
 .nc-cta svg{flex-shrink:0;transition:transform .18s var(--ease-out)}
 .nc-cta:hover svg{transform:translateX(4px)}
