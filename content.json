@@ -16,6 +16,19 @@
       "image": "assets/wall_apps.png",
       "imageAlt": "Ciudad futurista iluminada de noche con luces neón",
       "accentColor": "#230B26"
+    },
+    {
+      "id": 1,
+      "type": "image",
+      "tag": "NEWS",
+      "tagIcon": "🏙️",
+      "title": "kwgt widgets will be integrated.",
+      "excerpt": "GlassWave will now feature widgets with glass effects; if you want to use it with a true liquid glass effect, you can pair it with AKustom15's new app, Live Blur Wallpaper.",
+      "date": "9 Ago 2026",
+      "readTime": "1 Day",
+      "image": "assets/wall_info_1.png",
+      "imageAlt": "Ciudad futurista iluminada de noche con luces neón",
+      "accentColor": "#230B26"
     }
   ],
   "newsCard": {
